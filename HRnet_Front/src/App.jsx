@@ -1,20 +1,9 @@
-import './css/App.css'
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import EmployeeList from './pages/EmployeeList'
-import NotFound from './pages/NotFound'
+import "./css/App.css";
+import { RouterProvider } from "react-router-dom";
+import {router} from "./routes/Router"
 
 
-function App() {
-
-  return (
-
-    <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/about" element={<EmployeeList />} />
-    <Route path="*" element={<NotFound />} />
-  </Routes>
-  )
+export function App() {
+  return <RouterProvider router={router}/>;
 }
 
-export default App

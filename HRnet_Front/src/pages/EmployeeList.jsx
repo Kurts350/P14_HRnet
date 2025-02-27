@@ -1,9 +1,7 @@
-
 export function EmployeeList() {
   return (
     <div>
-      Empoyee List
+      <h1>Current Employees</h1>
     </div>
-  )
+  );
 }
-
