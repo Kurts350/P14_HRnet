@@ -5,13 +5,20 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: white;
 `;
 
+const Title = styled.h1`
+color: black;`
+
 const Form = styled.form`
+  display: flex;
+  flex-direction: column;
   width: 50%;
-  background-color: rgb(141, 255, 208);
+  background-color: #009879;
   padding: 40px;
   border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 `;
 
 const InputWrapper = styled.div`
@@ -32,7 +39,7 @@ const Fieldset = styled.fieldset``;
 
 const Select = styled.select`
   max-width: 200px;
-  height: 30px; // Pour correspondre à la hauteur de vos autres inputs
+  height: 30px;
 `;
 
 const Button = styled.button`
@@ -44,12 +51,13 @@ const Button = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-`;
+  align-items: center;
+  `;
 
 export function CreateEmployee() {
   return (
     <PageContainer>
-      <h1>Create Employee</h1>
+      <Title>Create Employee</Title>
       <Form>
         <InputWrapper>
           <Label htmlFor="firstName">First Name</Label>
@@ -103,7 +111,7 @@ export function CreateEmployee() {
         </Fieldset>
         <InputWrapper>
           <Label htmlFor="departement">Departement</Label>
-          <Select>
+          <Select id="departement">
             <option value="">Select Departement</option>
             <option value="Sales">Sales</option>
             <option value="Marketing">Marketing</option>
@@ -112,7 +120,7 @@ export function CreateEmployee() {
             <option value="Legal">Legal</option>
           </Select>
         </InputWrapper>
-        <Button>Save</Button>
+        <Button type="submit">Save</Button>
       </Form>
     </PageContainer>
   );
