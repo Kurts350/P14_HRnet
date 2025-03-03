@@ -1,5 +1,9 @@
 import { styled } from "styled-components";
 import { states } from "../data/statesData";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../store/employeesSlice";
+import { useNavigate } from "react-router-dom";
 
 const PageContainer = styled.div`
   display: flex;
@@ -9,7 +13,8 @@ const PageContainer = styled.div`
 `;
 
 const Title = styled.h1`
-color: black;`
+  color: black;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -52,28 +57,77 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   align-items: center;
-  `;
+`;
 
 export function CreateEmployee() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    hireDate: "",
+    department: "",
+    birthDate: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setEmployee({ ...employee, [id]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addEmployee(employee));
+    navigate("/employee-list");
+  };
+
   return (
     <PageContainer>
       <Title>Create Employee</Title>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <InputWrapper>
           <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" type="text" />
+          <Input
+            id="firstName"
+            type="text"
+            value={employee.firstName}
+            onChange={handleChange}
+            required
+          />
         </InputWrapper>
         <InputWrapper>
           <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" type="text" />
+          <Input
+            id="lastName"
+            type="text"
+            value={employee.lastName}
+            onChange={handleChange}
+            required
+          />
         </InputWrapper>
         <InputWrapper>
           <Label htmlFor="birthDate">Date of Birth</Label>
-          <Input id="birthDate" type="date" />
+          <Input
+            id="birthDate"
+            type="date"
+            value={employee.birthDate}
+            onChange={handleChange}
+            required
+          />
         </InputWrapper>
         <InputWrapper>
           <Label htmlFor="hireDate">Start Date</Label>
-          <Input id="hireDate" type="date" />
+          <Input
+            id="hireDate"
+            type="date"
+            value={employee.hireDate}
+            onChange={handleChange}
+            required
+          />
         </InputWrapper>
         <Fieldset>
           <legend
@@ -87,15 +141,32 @@ export function CreateEmployee() {
           </legend>
           <InputWrapper>
             <Label htmlFor="address">Street</Label>
-            <Input id="address" type="text" />
+            <Input
+              id="address"
+              type="text"
+              value={employee.address}
+              onChange={handleChange}
+              required
+            />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="city">City</Label>
-            <Input id="city" type="text" />
+            <Input
+              id="city"
+              type="text"
+              value={employee.city}
+              onChange={handleChange}
+              required
+            />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="state">State</Label>
-            <Select id="state">
+            <Select
+              id="state"
+              value={employee.state}
+              onChange={handleChange}
+              required
+            >
               <option value="">Select State</option>
               {states.map((state) => (
                 <option key={state.abbreviation} value={state.abbreviation}>
@@ -106,12 +177,23 @@ export function CreateEmployee() {
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="zip">Zip Code</Label>
-            <Input id="zip" type="number" />
+            <Input
+              id="zipCode"
+              type="number"
+              value={employee.zip}
+              onChange={handleChange}
+              required
+            />
           </InputWrapper>
         </Fieldset>
         <InputWrapper>
           <Label htmlFor="departement">Departement</Label>
-          <Select id="departement">
+          <Select
+            id="department"
+            value={employee.departement}
+            onChange={handleChange}
+            required
+          >
             <option value="">Select Departement</option>
             <option value="Sales">Sales</option>
             <option value="Marketing">Marketing</option>

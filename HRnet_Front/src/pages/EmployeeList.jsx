@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
+import { selectEmployees } from "../store/employeesSlice";
 import {
   useReactTable,
   getCoreRowModel,
@@ -17,36 +19,35 @@ const TableContainer = styled.div`
 `;
 
 const StyledTable = styled.table`
-
-width: 100%;
-border-collapse: collapse;
-margin: 20px 0;
-font-size: 0.9em;
-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-border-radius: 5px;
-overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.9em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 const TableHeader = styled.thead`
-background-color: #009879;
-color: white;
-text-align: left;
-font-weight: bold;
+  background-color: #009879;
+  color: white;
+  text-align: left;
+  font-weight: bold;
 `;
 
 const TableRow = styled.tr`
-border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
 
-&:nth-of-type(even) {
-  background-color: #f3f3f3;
+  &:nth-of-type(even) {
+    background-color: #f3f3f3;
   }
-  
+
   &:last-of-type {
     border-bottom: 2px solid #009879;
-    }
-    `;
-    
-    const TableCell = styled.td`
+  }
+`;
+
+const TableCell = styled.td`
   padding: 12px 15px;
 `;
 
@@ -137,8 +138,8 @@ const mockEmployees = [
 ];
 
 export function EmployeeList() {
-  const [data, setData] = useState(mockEmployees);
-  const [globalFilter, setGlobalFilter] = useState(undefined);
+  const employees = useSelector(selectEmployees);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   // Définition des colonnes
   const columns = useMemo(
@@ -152,8 +153,8 @@ export function EmployeeList() {
         accessorKey: "lastName",
       },
       {
-        header: "Start Date",
-        accessorKey: "startDate",
+        header: "Hire Date",
+        accessorKey: "hireDate",
       },
       {
         header: "Department",
@@ -164,8 +165,8 @@ export function EmployeeList() {
         accessorKey: "birthDate",
       },
       {
-        header: "Street",
-        accessorKey: "street",
+        header: "Address",
+        accessorKey: "address",
       },
       {
         header: "City",
@@ -185,7 +186,7 @@ export function EmployeeList() {
 
   // Configuration du tableau
   const table = useReactTable({
-    data,
+    data: employees,
     columns,
     state: {
       globalFilter,
@@ -214,39 +215,43 @@ export function EmployeeList() {
       />
 
       {/* Le tableau */}
-      <StyledTable>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHeaderCell
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                  {/* Indicateur de tri */}
-                  {{ asc: " 🔼", desc: " 🔽" }[header.column.getIsSorted()] ??
-                    ""}
-                </TableHeaderCell>
-              ))}
-            </tr>
-          ))}
-        </TableHeader>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </tbody>
-      </StyledTable>
+      {employees.length === 0 ? (
+        <p>No employees found. Please add employees from the home page.</p>
+      ) : (
+        <StyledTable>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHeaderCell
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {/* Indicateur de tri */}
+                    {{ asc: " 🔼", desc: " 🔽" }[header.column.getIsSorted()] ??
+                      ""}
+                  </TableHeaderCell>
+                ))}
+              </tr>
+            ))}
+          </TableHeader>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </tbody>
+        </StyledTable>
+      )}
 
       {/* Pagination */}
       <Pagination>
