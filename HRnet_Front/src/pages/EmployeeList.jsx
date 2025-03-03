@@ -97,46 +97,6 @@ const PageSizeSelector = styled.select`
   border-radius: 4px;
 `;
 
-// Exemple de données pour les tests
-const mockEmployees = [
-  {
-    id: 1,
-    firstName: "John",
-    lastName: "Doe",
-    startDate: "2021-01-15",
-    department: "Engineering",
-    birthDate: "1985-05-21",
-    street: "123 Main St",
-    city: "Boston",
-    state: "MA",
-    zipCode: "02134",
-  },
-  {
-    id: 2,
-    firstName: "Jane",
-    lastName: "Smith",
-    startDate: "2020-11-01",
-    department: "HR",
-    birthDate: "1990-08-15",
-    street: "456 Park Ave",
-    city: "New York",
-    state: "NY",
-    zipCode: "10001",
-  },
-  {
-    id: 3,
-    firstName: "Alice",
-    lastName: "Johnson",
-    startDate: "2021-03-05",
-    department: "Marketing",
-    birthDate: "1987-12-10",
-    street: "789 Elm St",
-    city: "Chicago",
-    state: "IL",
-    zipCode: "60601",
-  },
-];
-
 export function EmployeeList() {
   const employees = useSelector(selectEmployees);
   const [globalFilter, setGlobalFilter] = useState("");

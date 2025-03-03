@@ -3,7 +3,8 @@ import { states } from "../data/statesData";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../store/employeesSlice";
-import { useNavigate } from "react-router-dom";
+
+
 
 const PageContainer = styled.div`
   display: flex;
@@ -59,9 +60,46 @@ const Button = styled.button`
   align-items: center;
 `;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+`;
+
+const ModalButton = styled.button`
+  padding: 8px 16px;
+  margin-top: 15px;
+  background-color: #009879;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #008068;
+  }
+`;
+
+
 export function CreateEmployee() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [employee, setEmployee] = useState({
     firstName: "",
     lastName: "",
@@ -82,7 +120,22 @@ export function CreateEmployee() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addEmployee(employee));
-    navigate("/employee-list");
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEmployee({
+      firstName: "",
+      lastName: "",
+      hireDate: "",
+      department: "",
+      birthDate: "",
+      address: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    });
   };
 
   return (
@@ -204,6 +257,15 @@ export function CreateEmployee() {
         </InputWrapper>
         <Button type="submit">Save</Button>
       </Form>
+      {isModalOpen && (
+        <ModalOverlay>
+          <ModalContent>
+            <h2>Success!</h2>
+            <p>Employee has been created successfully.</p>
+            <ModalButton onClick={closeModal}>Close</ModalButton>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </PageContainer>
   );
 }
