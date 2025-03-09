@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { CreateEmployee } from "../pages/CreateEmployee";
+import CreateEmployee from "../pages/CreateEmployee";
 import { EmployeeList } from "../pages/EmployeeList";
 import { NotFound } from "../pages/NotFound";
 import { Layout } from "../Layout/Layout";

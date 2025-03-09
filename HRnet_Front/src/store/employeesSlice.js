@@ -20,6 +20,6 @@ const employeeSlice = createSlice({
 
 export const { addEmployee } = employeeSlice.actions;
 
-export const selectEmployees = (state) => state.employee.employees;
+export const selectEmployees = (state) => state.employees.employees;
 
 export default employeeSlice.reducer;

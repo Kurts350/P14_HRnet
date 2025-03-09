@@ -16,6 +16,8 @@ const LogoContainer = styled(NavLink)`
 `;
 const Logo = styled.img`
   width: 150px;
+  height: 150px;
+  aspect-ratio: 1/1;
 `;
 
 const NavContainer = styled.div`
